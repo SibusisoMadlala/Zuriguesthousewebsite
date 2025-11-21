@@ -14,7 +14,7 @@ export function HomePage() {
     },
     {
       icon: Waves,
-      title: '5 Min to Quiet Beaches',
+      title: '3 Min to Quiet Beaches',
       description: 'Serene coastal escapes',
     },
     {
