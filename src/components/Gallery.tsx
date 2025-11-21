@@ -1,39 +1,79 @@
 import React from 'react';
 import { ImageWithFallback } from './figma/ImageWithFallback';
 
+// Import local images
+import exteriorFrontView from '../assets/images/zuri-exterior-front-view.jpeg';
+import buildingExterior from '../assets/images/zuri-building-exterior.jpeg';
+import entranceArea from '../assets/images/zuri-entrance-area.jpeg';
+import heroMainView from '../assets/images/zuri-hero-main-view.jpeg';
+import bedroom1 from '../assets/images/zuri-bedroom-1.jpeg';
+import bedroom2 from '../assets/images/zuri-bedroom-2.jpeg';
+import roomInterior1 from '../assets/images/zuri-room-interior-1.jpeg';
+import roomInterior2 from '../assets/images/zuri-room-interior-2.jpeg';
+import livingArea from '../assets/images/zuri-living-area.jpeg';
+import kitchenArea from '../assets/images/zuri-kitchen-area.jpeg';
+import bathroom from '../assets/images/zuri-bathroom.jpeg';
+import outdoorSpace from '../assets/images/zuri-outdoor-space.jpeg';
+import gardenView from '../assets/images/zuri-garden-view.jpeg';
+import parkingArea from '../assets/images/zuri-parking-area.jpeg';
+
 export function Gallery() {
   const images = [
     {
-      url: 'https://images.unsplash.com/photo-1607712617949-8c993d290809?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjBhZnJpY2FuJTIwZ3Vlc3QlMjBob3VzZXxlbnwxfHx8fDE3NjM3MjY4NDF8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
-      alt: 'Guest house exterior',
+      url: heroMainView,
+      alt: 'Zuri Guest House - Main View',
     },
     {
-      url: 'https://images.unsplash.com/photo-1731336478850-6bce7235e320?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjBiZWRyb29tJTIwaG90ZWx8ZW58MXx8fHwxNzYzNjQyMDg0fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
-      alt: 'Luxury bedroom',
+      url: exteriorFrontView,
+      alt: 'Zuri Guest House - Front Exterior',
     },
     {
-      url: 'https://images.unsplash.com/photo-1669034938103-d4f434dce737?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxhZnJpY2FuJTIwZGluaW5nJTIwcm9vbXxlbnwxfHx8fDE3NjM3MjgyODl8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
-      alt: 'Dining room',
+      url: buildingExterior,
+      alt: 'Zuri Guest House - Building Exterior',
     },
     {
-      url: 'https://images.unsplash.com/photo-1741020804334-942e20412cfb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxhZnJpY2FuJTIwb3V0ZG9vciUyMHBhdGlvfGVufDF8fHx8MTc2MzcyODI5MHww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
-      alt: 'Outdoor patio',
+      url: entranceArea,
+      alt: 'Zuri Guest House - Entrance Area',
     },
     {
-      url: 'https://images.unsplash.com/photo-1505576391880-b3f9d713dc4f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxhZnJpY2FuJTIwdmlsbGElMjBpbnRlcmlvcnxlbnwxfHx8fDE3NjM3MjgyODh8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
-      alt: 'Villa interior',
+      url: bedroom1,
+      alt: 'Zuri Guest House - Bedroom 1',
     },
     {
-      url: 'https://images.unsplash.com/photo-1630836490403-0f1e2cbc29cf?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxkdXJiYW4lMjBuYXR1cmUlMjBzY2VuZXJ5fGVufDF8fHx8MTc2MzcyODI4OXww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
-      alt: 'Surrounding nature',
+      url: bedroom2,
+      alt: 'Zuri Guest House - Bedroom 2',
     },
     {
-      url: 'https://images.unsplash.com/photo-1679361717314-6d8942f1aa3e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzb3V0aCUyMGFmcmljYSUyMGJlYWNoJTIwc3Vuc2V0fGVufDF8fHx8MTc2MzcyODI4OHww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
-      alt: 'Beach sunset',
+      url: roomInterior1,
+      alt: 'Zuri Guest House - Room Interior 1',
     },
     {
-      url: 'https://images.unsplash.com/photo-1580134480039-747a599a4f99?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxkdXJiYW4lMjBoaWxscyUyMGxhbmRzY2FwZXxlbnwxfHx8fDE3NjM3MjY4NDJ8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
-      alt: 'Durban hills',
+      url: roomInterior2,
+      alt: 'Zuri Guest House - Room Interior 2',
+    },
+    {
+      url: livingArea,
+      alt: 'Zuri Guest House - Living Area',
+    },
+    {
+      url: kitchenArea,
+      alt: 'Zuri Guest House - Kitchen Area',
+    },
+    {
+      url: bathroom,
+      alt: 'Zuri Guest House - Bathroom',
+    },
+    {
+      url: outdoorSpace,
+      alt: 'Zuri Guest House - Outdoor Space',
+    },
+    {
+      url: gardenView,
+      alt: 'Zuri Guest House - Garden View',
+    },
+    {
+      url: parkingArea,
+      alt: 'Zuri Guest House - Parking Area',
     },
   ];
 

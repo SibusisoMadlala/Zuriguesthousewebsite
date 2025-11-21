@@ -2,25 +2,32 @@ import React from 'react';
 import { Home, Utensils, Car } from 'lucide-react';
 import { ImageWithFallback } from './figma/ImageWithFallback';
 
+// Import local images for services
+import bedroom1 from '../assets/images/zuri-bedroom-1.jpeg';
+import kitchenArea from '../assets/images/zuri-kitchen-area.jpeg';
+import parkingArea from '../assets/images/zuri-parking-area.jpeg';
+import heroMainView from '../assets/images/zuri-hero-main-view.jpeg';
+import outdoorSpace from '../assets/images/zuri-outdoor-space.jpeg';
+
 export function OurHome() {
   const services = [
     {
       icon: Home,
       title: 'Accommodation',
       description: 'Family-sized and standard en-suite rooms, accommodating up to 20 guests.',
-      image: 'https://images.unsplash.com/photo-1731336478850-6bce7235e320?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjBiZWRyb29tJTIwaG90ZWx8ZW58MXx8fHwxNzYzNjQyMDg0fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
+      image: bedroom1,
     },
     {
       icon: Utensils,
       title: 'Catering & Conferencing',
       description: 'Delicious cuisine by our in-house chef & versatile spaces for events.',
-      image: 'https://images.unsplash.com/photo-1669034938103-d4f434dce737?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxhZnJpY2FuJTIwZGluaW5nJTIwcm9vbXxlbnwxfHx8fDE3NjM3MjgyODl8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
+      image: kitchenArea,
     },
     {
       icon: Car,
       title: 'Transport',
       description: 'Shuttle services for easy, stress-free commuting.',
-      image: 'https://images.unsplash.com/photo-1630836490403-0f1e2cbc29cf?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxkdXJiYW4lMjBuYXR1cmUlMjBzY2VuZXJ5fGVufDF8fHx8MTc2MzcyODI4OXww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
+      image: parkingArea,
     },
   ];
 
@@ -30,7 +37,7 @@ export function OurHome() {
       <section className="relative h-[50vh] min-h-[400px] flex items-center justify-center">
         <div className="absolute inset-0">
           <ImageWithFallback
-            src="https://images.unsplash.com/photo-1607712617949-8c993d290809?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjBhZnJpY2FuJTIwZ3Vlc3QlMjBob3VzZXxlbnwxfHx8fDE3NjM3MjY4NDF8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
+            src={heroMainView}
             alt="Our African Home"
             className="w-full h-full object-cover"
           />
@@ -99,7 +106,7 @@ export function OurHome() {
             </div>
             <div className="h-96 rounded-lg overflow-hidden shadow-lg">
               <ImageWithFallback
-                src="https://images.unsplash.com/photo-1741020804334-942e20412cfb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxhZnJpY2FuJTIwb3V0ZG9vciUyMHBhdGlvfGVufDF8fHx8MTc2MzcyODI5MHww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
+                src={outdoorSpace}
                 alt="Outdoor patio"
                 className="w-full h-full object-cover"
               />
