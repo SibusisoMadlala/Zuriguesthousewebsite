@@ -93,26 +93,31 @@ export function Gallery() {
       </section>
 
       {/* Gallery Horizontal Scroll */}
-      <section className="pb-16 overflow-hidden">
+      <section className="pb-16">
         <div className="relative">
-          <div className="flex gap-6 animate-scroll">
-            {duplicatedImages.map((image, index) => (
-              <div
-                key={index}
-                className="flex-shrink-0 w-[400px] h-[400px] rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition-shadow group"
-              >
-                <ImageWithFallback
-                  src={image.url}
-                  alt={image.alt}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                />
-              </div>
-            ))}
+          {/* Outer scroll container allows manual horizontal scrolling */}
+          <div className="gallery-scroll" aria-label="Gallery scroller">
+            {/* Animated track (duplicated for seamless loop) */}
+            <div className="flex gap-6 animate-scroll gallery-track">
+              {duplicatedImages.map((image, index) => (
+                <div
+                  key={index}
+                  className="flex-shrink-0 w-[400px] h-[400px] rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition-shadow group"
+                >
+                  <ImageWithFallback
+                    src={image.url}
+                    alt={image.alt}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
       <style jsx>{`
+        /* Keyframes for the auto-scroll animation */
         @keyframes scroll {
           0% {
             transform: translateX(0);
@@ -122,12 +127,44 @@ export function Gallery() {
           }
         }
 
-        .animate-scroll {
-          animation: scroll 40s linear infinite;
+        /* Outer container: allows manual horizontal scrolling while the inner track animates */
+        .gallery-scroll {
+          overflow-x: auto;
+          -webkit-overflow-scrolling: touch;
+          scrollbar-width: thin;
+          padding: 8px 0;
         }
 
-        .animate-scroll:hover {
+        /* WebKit scrollbar styling */
+        .gallery-scroll::-webkit-scrollbar {
+          height: 10px;
+        }
+        .gallery-scroll::-webkit-scrollbar-thumb {
+          background: rgba(0, 0, 0, 0.24);
+          border-radius: 6px;
+        }
+
+        /* Animated track: faster animation (reduced duration to make it a bit fast) */
+        .animate-scroll {
+          animation: scroll 16s linear infinite;
+        }
+
+        /* Pause the auto-scroll when user hovers or focuses the track */
+        .animate-scroll:hover,
+        .animate-scroll:focus-within,
+        .gallery-scroll:hover .animate-scroll {
           animation-play-state: paused;
+        }
+
+        /* Ensure track stays in a single row and items align */
+        .gallery-track {
+          display: flex;
+          align-items: center;
+        }
+
+        /* Make sure items don't wrap when container is resized */
+        .gallery-track > div {
+          flex: 0 0 auto;
         }
       `}</style>
     </div>
