@@ -2,7 +2,7 @@ import React from 'react';
 import { Plane, Waves, Heart, ChefHat } from 'lucide-react';
 import { ImageWithFallback } from './figma/ImageWithFallback';
 
-// Import cover image
+
 import coverImage from '../assets/images/coverImage.jpeg';
 
 export function HomePage() {
