@@ -146,7 +146,7 @@ export function Gallery() {
 
         /* Animated track: faster animation (reduced duration to make it a bit fast) */
         .animate-scroll {
-          animation: scroll 16s linear infinite;
+          animation: scroll 25s linear infinite;
         }
 
         /* Pause the auto-scroll when user hovers or focuses the track */
