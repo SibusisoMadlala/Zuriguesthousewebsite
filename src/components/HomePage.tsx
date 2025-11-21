@@ -2,6 +2,9 @@ import React from 'react';
 import { Plane, Waves, Heart, ChefHat } from 'lucide-react';
 import { ImageWithFallback } from './figma/ImageWithFallback';
 
+// Import cover image
+import coverImage from '../assets/images/coverImage.jpeg';
+
 export function HomePage() {
   const highlights = [
     {
@@ -46,7 +49,7 @@ export function HomePage() {
       <section className="relative h-[90vh] min-h-[600px] flex items-center justify-center">
         <div className="absolute inset-0">
           <ImageWithFallback
-            src="https://images.unsplash.com/photo-1580134480039-747a599a4f99?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxkdXJiYW4lMjBoaWxscyUyMGxhbmRzY2FwZXxlbnwxfHx8fDE3NjM3MjY4NDJ8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
+            src={coverImage}
             alt="Zuri Village Escapes - Durban Hills"
             className="w-full h-full object-cover"
           />
