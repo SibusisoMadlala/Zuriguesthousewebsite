@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { ChevronRight, Phone, Mail, MapPin, Send } from 'lucide-react';
 import { ImageWithFallback } from './figma/ImageWithFallback';
 
+import diningImage from '../../assets/images/zuri-kitchen-area.jpeg';
+
 export function Contact() {
   const [formData, setFormData] = useState({
     name: '',
@@ -88,7 +90,7 @@ export function Contact() {
           {/* Photo */}
           <div className="h-64 lg:h-80 overflow-hidden flex-shrink-0">
             <ImageWithFallback
-              src="https://images.unsplash.com/photo-1669034938103-d4f434dce737?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxhZnJpY2FuJTIwZGluaW5nJTIwcm9vbXxlbnwxfHx8fDE3NjM3MjgyODl8MA&ixlib=rb-4.1.0&q=80&w=1080"
+              src={diningImage}
               alt="Zuri Village hospitality"
               className="w-full h-full object-cover"
             />

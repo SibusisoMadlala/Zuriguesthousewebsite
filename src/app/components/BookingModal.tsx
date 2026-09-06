@@ -1,8 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { X, ChevronLeft, ChevronRight, Check, CheckCircle, Users, Calendar } from 'lucide-react';
+import { X, ChevronLeft, ChevronRight, Check, CheckCircle, Users, CalendarDays } from 'lucide-react';
 import { differenceInDays, format, addDays } from 'date-fns';
 import { ImageWithFallback } from './figma/ImageWithFallback';
 import { useBooking } from '../contexts/BookingContext';
+import { checkBookingAvailability, getUnavailableDates, submitBookingRequest } from '../lib/bookings';
+import { Calendar } from './ui/calendar';
+import { Popover, PopoverContent, PopoverTrigger } from './ui/popover';
+
+import standardRoom from '../../assets/images/zuri-bedroom-1.jpeg';
+import deluxeRoom from '../../assets/images/zuri-room-interior-1.jpeg';
+import kingRoom from '../../assets/images/zuri-bedroom-2.jpeg';
 
 // ── Room catalogue ──────────────────────────────────────────────────────────
 
@@ -13,8 +20,7 @@ const ROOMS = [
     name: 'Standard En-Suite',
     price: 650,
     features: ['Private en-suite bathroom', 'Comfortable bedding', 'Daily housekeeping'],
-    image:
-      'https://images.unsplash.com/photo-1505576391880-b3f9d713dc4f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxhZnJpY2FuJTIwdmlsbGElMjBpbnRlcmlvcnxlbnwxfHx8fDE3NjM3MjgyODh8MA&ixlib=rb-4.1.0&q=80&w=600',
+    image: standardRoom,
   },
   {
     id: 'deluxe',
@@ -22,8 +28,7 @@ const ROOMS = [
     name: 'Deluxe En-Suite',
     price: 750,
     features: ['Spacious layout', 'Private en-suite', 'Premium amenities', 'Garden view'],
-    image:
-      'https://images.unsplash.com/photo-1607712617949-8c993d290809?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjBhZnJpY2FuJTIwZ3Vlc3QlMjBob3VzZXxlbnwxfHx8fDE3NjM3MjY4NDF8MA&ixlib=rb-4.1.0&q=80&w=600',
+    image: deluxeRoom,
   },
   {
     id: 'king',
@@ -31,8 +36,7 @@ const ROOMS = [
     name: 'King En-Suite',
     price: 985,
     features: ['King-size bed', 'Luxury en-suite', 'Premium amenities', 'Best views'],
-    image:
-      'https://images.unsplash.com/photo-1731336478850-6bce7235e320?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjBiZWRyb29tJTIwaG90ZWx8ZW58MXx8fHwxNzYzNjQyMDg0fDA&ixlib=rb-4.1.0&q=80&w=600',
+    image: kingRoom,
   },
 ];
 
@@ -207,17 +211,31 @@ function StepDates({
   nights,
   total,
   selectedRoom,
+  unavailableCheckInDates,
+  unavailableCheckOutDates,
+  isLoadingUnavailableDates,
+  isCheckingAvailability,
+  availabilityMessage,
+  isAvailable,
 }: {
   data: BookingData;
   setData: React.Dispatch<React.SetStateAction<BookingData>>;
   nights: number;
   total: number;
   selectedRoom: (typeof ROOMS)[number] | undefined;
+  unavailableCheckInDates: Date[];
+  unavailableCheckOutDates: Date[];
+  isLoadingUnavailableDates: boolean;
+  isCheckingAvailability: boolean;
+  availabilityMessage: string;
+  isAvailable: boolean | null;
 }) {
-  const today = format(new Date(), 'yyyy-MM-dd');
-  const minCheckout = data.checkIn
-    ? format(addDays(new Date(data.checkIn), 1), 'yyyy-MM-dd')
-    : today;
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const parsedCheckIn = data.checkIn ? new Date(`${data.checkIn}T00:00:00`) : undefined;
+  const parsedCheckOut = data.checkOut ? new Date(`${data.checkOut}T00:00:00`) : undefined;
+  const minCheckoutDate = parsedCheckIn ? addDays(parsedCheckIn, 1) : today;
 
   return (
     <div className="p-6 lg:p-8 max-w-lg">
@@ -244,22 +262,66 @@ function StepDates({
 
       <div className="space-y-5">
         <Field label="Check-in Date">
-          <TextInput
-            type="date"
-            value={data.checkIn}
-            onChange={(v) =>
-              setData((p) => ({ ...p, checkIn: v, checkOut: '' }))
-            }
-          />
+          <Popover>
+            <PopoverTrigger asChild>
+              <button
+                className="w-full bg-white/8 border border-white/18 text-white px-4 py-3 text-sm font-light flex items-center justify-between hover:border-white/45 transition-colors"
+                type="button"
+              >
+                <span>{parsedCheckIn ? format(parsedCheckIn, 'EEE, dd MMM yyyy') : 'Select check-in date'}</span>
+                <CalendarDays size={15} className="text-white/45" />
+              </button>
+            </PopoverTrigger>
+            <PopoverContent
+              className="w-auto p-0 z-[220] bg-[#8C7040] text-white border-white/25"
+              align="start"
+            >
+              <Calendar
+                mode="single"
+                selected={parsedCheckIn}
+                onSelect={(value) => {
+                  if (!value) return;
+                  const iso = format(value, 'yyyy-MM-dd');
+                  setData((p) => ({ ...p, checkIn: iso, checkOut: '' }));
+                }}
+                disabled={[{ before: today }, ...unavailableCheckInDates]}
+                hidden={[{ before: today }, ...unavailableCheckInDates]}
+                initialFocus
+              />
+            </PopoverContent>
+          </Popover>
         </Field>
 
         <Field label="Check-out Date">
-          <TextInput
-            type="date"
-            value={data.checkOut}
-            onChange={(v) => setData((p) => ({ ...p, checkOut: v }))}
-            disabled={!data.checkIn}
-          />
+          <Popover>
+            <PopoverTrigger asChild>
+              <button
+                className="w-full bg-white/8 border border-white/18 text-white px-4 py-3 text-sm font-light flex items-center justify-between hover:border-white/45 transition-colors disabled:opacity-35"
+                type="button"
+                disabled={!parsedCheckIn}
+              >
+                <span>{parsedCheckOut ? format(parsedCheckOut, 'EEE, dd MMM yyyy') : 'Select check-out date'}</span>
+                <CalendarDays size={15} className="text-white/45" />
+              </button>
+            </PopoverTrigger>
+            <PopoverContent
+              className="w-auto p-0 z-[220] bg-[#8C7040] text-white border-white/25"
+              align="start"
+            >
+              <Calendar
+                mode="single"
+                selected={parsedCheckOut}
+                onSelect={(value) => {
+                  if (!value) return;
+                  const iso = format(value, 'yyyy-MM-dd');
+                  setData((p) => ({ ...p, checkOut: iso }));
+                }}
+                disabled={[{ before: minCheckoutDate }, ...unavailableCheckOutDates]}
+                hidden={[{ before: minCheckoutDate }, ...unavailableCheckOutDates]}
+                initialFocus
+              />
+            </PopoverContent>
+          </Popover>
         </Field>
 
         {/* Nights + total summary */}
@@ -267,7 +329,7 @@ function StepDates({
           <div className="bg-white/8 border border-white/15 px-5 py-5 space-y-3">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <Calendar size={14} className="text-white/45" strokeWidth={1.5} />
+                <CalendarDays size={14} className="text-white/45" strokeWidth={1.5} />
                 <span className="text-white/50 text-xs font-light uppercase tracking-widest">
                   Duration
                 </span>
@@ -304,6 +366,20 @@ function StepDates({
 
         {data.checkIn && !data.checkOut && (
           <p className="text-white/35 text-xs font-light">Select a check-out date to continue.</p>
+        )}
+
+        {isLoadingUnavailableDates && (
+          <p className="text-white/45 text-xs font-light">Loading unavailable dates...</p>
+        )}
+
+        {isCheckingAvailability && (
+          <p className="text-white/45 text-xs font-light">Checking live availability...</p>
+        )}
+
+        {!isCheckingAvailability && availabilityMessage && (
+          <p className={`text-xs font-light ${isAvailable ? 'text-emerald-200' : 'text-red-200'}`}>
+            {availabilityMessage}
+          </p>
         )}
       </div>
     </div>
@@ -611,12 +687,28 @@ export function BookingModal() {
     requests: '',
   });
   const [bookingRef, setBookingRef] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState('');
+  const [isCheckingAvailability, setIsCheckingAvailability] = useState(false);
+  const [availabilityMessage, setAvailabilityMessage] = useState('');
+  const [isAvailable, setIsAvailable] = useState<boolean | null>(null);
+  const [unavailableCheckInDates, setUnavailableCheckInDates] = useState<Date[]>([]);
+  const [unavailableCheckOutDates, setUnavailableCheckOutDates] = useState<Date[]>([]);
+  const [isLoadingUnavailableDates, setIsLoadingUnavailableDates] = useState(false);
 
   // Reset when opened
   useEffect(() => {
     if (isOpen) {
       setStep('room');
       setBookingRef('');
+      setSubmitError('');
+      setIsSubmitting(false);
+      setIsCheckingAvailability(false);
+      setAvailabilityMessage('');
+      setIsAvailable(null);
+      setUnavailableCheckInDates([]);
+      setUnavailableCheckOutDates([]);
+      setIsLoadingUnavailableDates(false);
       setData({
         room: (initialRoom as RoomId) || '',
         checkIn: '',
@@ -635,6 +727,97 @@ export function BookingModal() {
       document.body.style.overflow = '';
     };
   }, [isOpen, initialRoom]);
+
+  useEffect(() => {
+    setAvailabilityMessage('');
+    setIsAvailable(null);
+  }, [data.room, data.checkIn, data.checkOut, data.guests]);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    if (!isOpen || step !== 'dates' || !data.room) {
+      setUnavailableCheckInDates([]);
+      return () => {
+        cancelled = true;
+      };
+    }
+
+    const loadCheckInUnavailableDates = async () => {
+      setIsLoadingUnavailableDates(true);
+
+      try {
+        const startDate = format(new Date(), 'yyyy-MM-dd');
+        const unavailable = await getUnavailableDates({
+          roomId: data.room,
+          guests: data.guests,
+          startDate,
+          daysAhead: 120,
+        });
+
+        if (!cancelled) {
+          setUnavailableCheckInDates(unavailable.map((d) => new Date(`${d}T00:00:00`)));
+        }
+      } catch {
+        if (!cancelled) {
+          setUnavailableCheckInDates([]);
+        }
+      } finally {
+        if (!cancelled) {
+          setIsLoadingUnavailableDates(false);
+        }
+      }
+    };
+
+    loadCheckInUnavailableDates();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [isOpen, step, data.room, data.guests]);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    if (!isOpen || step !== 'dates' || !data.room || !data.checkIn) {
+      setUnavailableCheckOutDates([]);
+      return () => {
+        cancelled = true;
+      };
+    }
+
+    const loadCheckOutUnavailableDates = async () => {
+      setIsLoadingUnavailableDates(true);
+
+      try {
+        const unavailable = await getUnavailableDates({
+          roomId: data.room,
+          guests: data.guests,
+          startDate: data.checkIn,
+          daysAhead: 120,
+          checkInDate: data.checkIn,
+        });
+
+        if (!cancelled) {
+          setUnavailableCheckOutDates(unavailable.map((d) => new Date(`${d}T00:00:00`)));
+        }
+      } catch {
+        if (!cancelled) {
+          setUnavailableCheckOutDates([]);
+        }
+      } finally {
+        if (!cancelled) {
+          setIsLoadingUnavailableDates(false);
+        }
+      }
+    };
+
+    loadCheckOutUnavailableDates();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [isOpen, step, data.room, data.checkIn, data.guests]);
 
   if (!isOpen) return null;
 
@@ -656,7 +839,47 @@ export function BookingModal() {
     return true;
   };
 
-  const goNext = () => {
+  const verifyAvailability = async () => {
+    if (!selectedRoom || !data.checkIn || !data.checkOut || nights <= 0) {
+      return false;
+    }
+
+    setIsCheckingAvailability(true);
+    setAvailabilityMessage('');
+
+    try {
+      const result = await checkBookingAvailability({
+        roomId: selectedRoom.id,
+        checkIn: data.checkIn,
+        checkOut: data.checkOut,
+        guests: data.guests,
+      });
+
+      if (!result.available) {
+        setIsAvailable(false);
+        setAvailabilityMessage(result.message || 'This room is unavailable for selected dates.');
+        return false;
+      }
+
+      setIsAvailable(true);
+      setAvailabilityMessage(result.message || 'Room is available for your selected dates.');
+      return true;
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Unable to check availability right now.';
+      setIsAvailable(false);
+      setAvailabilityMessage(message);
+      return false;
+    } finally {
+      setIsCheckingAvailability(false);
+    }
+  };
+
+  const goNext = async () => {
+    if (step === 'dates') {
+      const available = await verifyAvailability();
+      if (!available) return;
+    }
+
     const order: Step[] = ['room', 'dates', 'details', 'review'];
     const idx = order.indexOf(step as Step);
     if (idx < order.length - 1) setStep(order[idx + 1]);
@@ -668,9 +891,43 @@ export function BookingModal() {
     if (idx > 0) setStep(order[idx - 1]);
   };
 
-  const handleConfirm = () => {
-    setBookingRef(genRef());
-    setStep('confirmed');
+  const handleConfirm = async () => {
+    if (!selectedRoom || isSubmitting) return;
+
+    const available = await verifyAvailability();
+    if (!available) {
+      setStep('dates');
+      return;
+    }
+
+    setIsSubmitting(true);
+    setSubmitError('');
+
+    submitBookingRequest({
+      roomId: selectedRoom.id,
+      roomName: selectedRoom.name,
+      roomPrice: selectedRoom.price,
+      checkIn: data.checkIn,
+      checkOut: data.checkOut,
+      guests: data.guests,
+      nights,
+      total,
+      name: data.name.trim(),
+      email: data.email.trim(),
+      phone: data.phone.trim(),
+      requests: data.requests.trim(),
+    })
+      .then((result) => {
+        setBookingRef(result.booking_reference || genRef());
+        setStep('confirmed');
+      })
+      .catch((error) => {
+        const message = error instanceof Error ? error.message : 'Unable to submit your booking right now.';
+        setSubmitError(message);
+      })
+      .finally(() => {
+        setIsSubmitting(false);
+      });
   };
 
   return (
@@ -759,6 +1016,12 @@ export function BookingModal() {
               nights={nights}
               total={total}
               selectedRoom={selectedRoom}
+              unavailableCheckInDates={unavailableCheckInDates}
+              unavailableCheckOutDates={unavailableCheckOutDates}
+              isLoadingUnavailableDates={isLoadingUnavailableDates}
+              isCheckingAvailability={isCheckingAvailability}
+              availabilityMessage={availabilityMessage}
+              isAvailable={isAvailable}
             />
           )}
           {step === 'details' && <StepDetails data={data} setData={setData} />}
@@ -798,22 +1061,33 @@ export function BookingModal() {
             )}
 
             {step === 'review' ? (
-              <button
+              <div className="flex flex-col items-end gap-2">
+                {submitError && (
+                  <p className="text-red-200 text-[11px] font-light max-w-xs text-right">
+                    {submitError}
+                  </p>
+                )}
+                <button
                 onClick={handleConfirm}
                 className="relative px-10 py-3 text-white text-xs tracking-[0.25em] uppercase font-light hover:bg-white/10 transition-colors disabled:opacity-35"
-                disabled={!canProceed()}
+                disabled={!canProceed() || isSubmitting}
               >
                 <span className="absolute top-0 left-0 w-5 h-5 border-t border-l border-white/55" />
                 <span className="absolute bottom-0 right-0 w-5 h-5 border-b border-r border-white/55" />
-                Confirm Booking
-              </button>
+                {isSubmitting ? 'Submitting...' : 'Confirm Booking'}
+                </button>
+              </div>
             ) : (
               <button
                 onClick={goNext}
-                disabled={!canProceed()}
+                disabled={!canProceed() || isCheckingAvailability || isLoadingUnavailableDates}
                 className="flex items-center gap-1.5 text-white/80 hover:text-white text-xs tracking-widest uppercase font-light disabled:opacity-30 transition-colors"
               >
-                Continue
+                {isCheckingAvailability
+                  ? 'Checking...'
+                  : isLoadingUnavailableDates
+                  ? 'Loading...'
+                  : 'Continue'}
                 <ChevronRight size={15} strokeWidth={1.5} />
               </button>
             )}

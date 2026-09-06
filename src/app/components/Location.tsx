@@ -2,6 +2,10 @@ import React, { useState } from 'react';
 import { ChevronRight, Plane, Waves, Building2, Mountain, MapPin } from 'lucide-react';
 import { ImageWithFallback } from './figma/ImageWithFallback';
 
+import hillsImage from '../../assets/images/zuri-garden-view.jpeg';
+import beachImage from '../../assets/images/zuri-outdoor-space.jpeg';
+import coverImage from '../../assets/images/zuri-hero-main-view.jpeg';
+
 const missions = [
   {
     num: '01',
@@ -38,16 +42,16 @@ export function Location() {
       <section className="min-h-screen flex flex-col lg:flex-row">
         {/* Left: 2 stacked photos + display title */}
         <div className="lg:w-5/12 relative flex flex-col">
-          <div className="flex-1 overflow-hidden h-60 lg:h-auto">
+          {/* <div className="flex-1 overflow-hidden h-60 lg:h-auto">
             <ImageWithFallback
-              src="https://images.unsplash.com/photo-1580134480039-747a599a4f99?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxkdXJiYW4lMjBoaWxscyUyMGxhbmRzY2FwZXxlbnwxfHx8fDE3NjM3MjY4NDJ8MA&ixlib=rb-4.1.0&q=80&w=800"
+              src={hillsImage}
               alt="Durban hills landscape"
               className="w-full h-full object-cover"
             />
-          </div>
+          </div> */}
           <div className="flex-1 overflow-hidden h-60 lg:h-auto">
             <ImageWithFallback
-              src="https://images.unsplash.com/photo-1679361717314-6d8942f1aa3e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzb3V0aCUyMGFmcmljYSUyMGJlYWNoJTIwc3Vuc2V0fGVufDF8fHx8MTc2MzcyODI4OHww&ixlib=rb-4.1.0&q=80&w=800"
+              src={coverImage}
               alt="South Africa beach"
               className="w-full h-full object-cover"
             />
@@ -71,7 +75,7 @@ export function Location() {
             </h2>
           </div>
         </div>
-
+        
         {/* Right: accordion travel cards */}
         <div className="lg:w-7/12 px-8 lg:px-14 py-14 lg:py-20 flex flex-col justify-center space-y-4">
           {/* Address badge */}

@@ -2,6 +2,8 @@ import React from 'react';
 import { Phone, Mail, MapPin, Facebook, Instagram } from 'lucide-react';
 import { ImageWithFallback } from './figma/ImageWithFallback';
 
+import outdoorImage from '../../assets/images/zuri-outdoor-space.jpeg';
+
 export function Footer() {
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
@@ -19,7 +21,7 @@ export function Footer() {
       <section className="relative py-36 flex flex-col items-center justify-center overflow-hidden">
         <div className="absolute inset-0">
           <ImageWithFallback
-            src="https://images.unsplash.com/photo-1741020804334-942e20412cfb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxhZnJpY2FuJTIwb3V0ZG9vciUyMHBhdGlvfGVufDF8fHx8MTc2MzcyODI5MHww&ixlib=rb-4.1.0&q=80&w=1080"
+            src={outdoorImage}
             alt="Zuri Village outdoor patio"
             className="w-full h-full object-cover"
           />

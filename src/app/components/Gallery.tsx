@@ -1,114 +1,96 @@
 import React from 'react';
 import { ImageWithFallback } from './figma/ImageWithFallback';
 
+import exteriorFrontView from '../../assets/images/zuri-exterior-front-view.jpeg';
+import buildingExterior from '../../assets/images/zuri-building-exterior.jpeg';
+import entranceArea from '../../assets/images/zuri-entrance-area.jpeg';
+import heroMainView from '../../assets/images/zuri-hero-main-view.jpeg';
+import bedroom1 from '../../assets/images/zuri-bedroom-1.jpeg';
+import bedroom2 from '../../assets/images/zuri-bedroom-2.jpeg';
+import roomInterior1 from '../../assets/images/zuri-room-interior-1.jpeg';
+import roomInterior2 from '../../assets/images/zuri-room-interior-2.jpeg';
+import livingArea from '../../assets/images/zuri-living-area.jpeg';
+import kitchenArea from '../../assets/images/zuri-kitchen-area.jpeg';
+import bathroom from '../../assets/images/zuri-bathroom.jpeg';
+import outdoorSpace from '../../assets/images/zuri-outdoor-space.jpeg';
+import gardenView from '../../assets/images/zuri-garden-view.jpeg';
+import parkingArea from '../../assets/images/zuri-parking-area.jpeg';
+
 const images = [
-  {
-    url: 'https://images.unsplash.com/photo-1607712617949-8c993d290809?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjBhZnJpY2FuJTIwZ3Vlc3QlMjBob3VzZXxlbnwxfHx8fDE3NjM3MjY4NDF8MA&ixlib=rb-4.1.0&q=80&w=800',
-    alt: 'Guest house exterior',
-  },
-  {
-    url: 'https://images.unsplash.com/photo-1731336478850-6bce7235e320?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjBiZWRyb29tJTIwaG90ZWx8ZW58MXx8fHwxNzYzNjQyMDg0fDA&ixlib=rb-4.1.0&q=80&w=800',
-    alt: 'Luxury bedroom',
-  },
-  {
-    url: 'https://images.unsplash.com/photo-1669034938103-d4f434dce737?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxhZnJpY2FuJTIwZGluaW5nJTIwcm9vbXxlbnwxfHx8fDE3NjM3MjgyODl8MA&ixlib=rb-4.1.0&q=80&w=800',
-    alt: 'Dining room',
-  },
-  {
-    url: 'https://images.unsplash.com/photo-1741020804334-942e20412cfb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxhZnJpY2FuJTIwb3V0ZG9vciUyMHBhdGlvfGVufDF8fHx8MTc2MzcyODI5MHww&ixlib=rb-4.1.0&q=80&w=800',
-    alt: 'Outdoor patio',
-  },
-  {
-    url: 'https://images.unsplash.com/photo-1505576391880-b3f9d713dc4f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxhZnJpY2FuJTIwdmlsbGElMjBpbnRlcmlvcnxlbnwxfHx8fDE3NjM3MjgyODh8MA&ixlib=rb-4.1.0&q=80&w=800',
-    alt: 'Villa interior',
-  },
-  {
-    url: 'https://images.unsplash.com/photo-1630836490403-0f1e2cbc29cf?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxkdXJiYW4lMjBuYXR1cmUlMjBzY2VuZXJ5fGVufDF8fHx8MTc2MzcyODI4OXww&ixlib=rb-4.1.0&q=80&w=800',
-    alt: 'Surrounding nature scenery',
-  },
-  {
-    url: 'https://images.unsplash.com/photo-1679361717314-6d8942f1aa3e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzb3V0aCUyMGFmcmljYSUyMGJlYWNoJTIwc3Vuc2V0fGVufDF8fHx8MTc2MzcyODI4OHww&ixlib=rb-4.1.0&q=80&w=800',
-    alt: 'Beach sunset',
-  },
-  {
-    url: 'https://images.unsplash.com/photo-1580134480039-747a599a4f99?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxkdXJiYW4lMjBoaWxscyUyMGxhbmRzY2FwZXxlbnwxfHx8fDE3NjM3MjY4NDJ8MA&ixlib=rb-4.1.0&q=80&w=800',
-    alt: 'Durban hills landscape',
-  },
+  { url: heroMainView, alt: 'Zuri Guest House - Main View' },
+  { url: exteriorFrontView, alt: 'Zuri Guest House - Front Exterior' },
+  { url: buildingExterior, alt: 'Zuri Guest House - Building Exterior' },
+  { url: entranceArea, alt: 'Zuri Guest House - Entrance Area' },
+  { url: bedroom1, alt: 'Zuri Guest House - Bedroom 1' },
+  { url: bedroom2, alt: 'Zuri Guest House - Bedroom 2' },
+  { url: roomInterior1, alt: 'Zuri Guest House - Room Interior 1' },
+  { url: roomInterior2, alt: 'Zuri Guest House - Room Interior 2' },
+  { url: livingArea, alt: 'Zuri Guest House - Living Area' },
+  { url: kitchenArea, alt: 'Zuri Guest House - Kitchen Area' },
+  { url: bathroom, alt: 'Zuri Guest House - Bathroom' },
+  { url: outdoorSpace, alt: 'Zuri Guest House - Outdoor Space' },
+  { url: gardenView, alt: 'Zuri Guest House - Garden View' },
+  { url: parkingArea, alt: 'Zuri Guest House - Parking Area' },
 ];
 
-const scrollImages = [...images, ...images];
+const scrollImages = [...images, ...images, ...images];
 
 export function Gallery() {
   return (
-    <div id="gallery" className="bg-[#8C7040]">
-      {/* ── PORTFOLIO MOSAIC ── */}
-      <section className="relative pt-16 pb-0">
-        {/* 3×2 mosaic grid */}
-        <div className="grid grid-cols-3 gap-1.5 px-1.5">
-          {images.slice(0, 6).map((img, i) => (
-            <div
-              key={i}
-              className="overflow-hidden aspect-[4/3] group"
+    <div id="gallery" className="bg-[#8C7040] py-8 lg:py-12">
+      <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="mb-6 flex items-end justify-between gap-4">
+          <div>
+            <p className="text-[10px] tracking-[0.34em] uppercase text-white/65 mb-2">Explore</p>
+            <h2
+              className="text-white leading-none"
+              style={{
+                fontFamily: "'Cormorant Garamond', Georgia, serif",
+                fontSize: 'clamp(2.5rem, 4vw, 4.5rem)',
+                fontWeight: 600,
+                lineHeight: 0.92,
+              }}
             >
-              <ImageWithFallback
-                src={img.url}
-                alt={img.alt}
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-              />
-            </div>
-          ))}
+              Our Gallery
+            </h2>
+          </div>
         </div>
 
-        {/* "Our Portfolio" overlay text */}
-        <div className="pointer-events-none absolute bottom-0 right-0 px-6 py-4 bg-[#8C7040]/85">
-          <h2
-            className="text-white leading-none"
-            style={{
-              fontFamily: "'Cormorant Garamond', Georgia, serif",
-              fontSize: 'clamp(2.5rem, 6vw, 6rem)',
-              fontWeight: 600,
-              lineHeight: 0.92,
-            }}
-          >
-            Our
-            <br />
-            Gallery
-          </h2>
-        </div>
-      </section>
-
-      {/* ── AUTO-SCROLL STRIP ── */}
-      <section className="py-10 overflow-hidden">
-        <div className="relative">
-          <div className="flex gap-4 animate-gallery-scroll">
+        <div className="relative overflow-hidden rounded-[1.25rem] border border-white/10 bg-[#6f5631]/40 py-3 shadow-[0_18px_45px_rgba(46,28,10,0.12)]">
+          <div className="gallery-marquee flex w-max items-center gap-4 pl-4">
             {scrollImages.map((img, i) => (
               <div
-                key={i}
-                className="flex-shrink-0 w-72 h-48 overflow-hidden group"
+                key={`${img.alt}-${i}`}
+                className="group relative h-[280px] w-[220px] shrink-0 overflow-hidden rounded-[1rem] border border-white/10 bg-[#3d2815]/20 sm:h-[320px] sm:w-[260px] lg:h-[360px] lg:w-[300px]"
               >
                 <ImageWithFallback
                   src={img.url}
                   alt={img.alt}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
+                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#2d1d10]/75 to-transparent p-3">
+                  <span className="text-[10px] uppercase tracking-[0.24em] text-white/75">Zuri</span>
+                </div>
               </div>
             ))}
           </div>
         </div>
-
-        <style>{`
-          @keyframes galleryScroll {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-          }
-          .animate-gallery-scroll {
-            animation: galleryScroll 45s linear infinite;
-          }
-          .animate-gallery-scroll:hover {
-            animation-play-state: paused;
-          }
-        `}</style>
       </section>
+
+      <style>{`
+        @keyframes galleryMarquee {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
+        }
+
+        .gallery-marquee {
+          animation: galleryMarquee 36s linear infinite;
+        }
+
+        .gallery-marquee:hover {
+          animation-play-state: paused;
+        }
+      `}</style>
     </div>
   );
 }
